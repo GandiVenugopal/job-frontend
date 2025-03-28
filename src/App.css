@@ -24,6 +24,10 @@
   color: white;
 }
 
+body {
+  @apply bg-gray-50;
+}
+
 .App-link {
   color: #61dafb;
 }
