@@ -10,7 +10,12 @@ const RecommendedJobs = () => {
     const fetchJobs = async () => {
       try {
         const res = await api.get('/jobs/recommendations');
-        setJobs(res.data);
+        if (Array.isArray(res.data)) {
+          setJobs(res.data);
+        } else {
+          console.warn('Expected array but got:', res.data);
+          setJobs([]);
+        }
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load jobs');
       } finally {
@@ -34,7 +39,7 @@ const RecommendedJobs = () => {
         )}
 
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          {jobs.map((job, index) => (
+          {Array.isArray(jobs) && jobs.map((job, index) => (
             <li key={index} style={jobCard}>
               <h3 style={jobTitle}>{job.title}</h3>
               <p style={company}>{job.company}</p>
